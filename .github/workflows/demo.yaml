@@ -10,5 +10,6 @@ jobs:
         with:
           node-version: '20'
       - run: npm install -g bats
-      - run: echo bats -v
+      - run: bats -v
+
 
