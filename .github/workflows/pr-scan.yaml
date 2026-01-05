@@ -84,7 +84,7 @@ jobs:
         with:
           target: "http://localhost:5000"
           cmd_options: "-a"
-          artifact_name: ""
+          artifact_name: none
 
       - name: Comment ZAP results on PR
         uses: actions/github-script@v7
