@@ -29,4 +29,4 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           entryPoint: semgrep
-          args: --config p/ci --baseline-commit=origin/main --metrics=off
+          args: --config p/ci --metrics=off
