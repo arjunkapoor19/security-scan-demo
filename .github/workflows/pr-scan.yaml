@@ -1,0 +1,20 @@
+name: PR Security Scan
+
+on:
+  pull_request:
+    branch:
+      - main
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+
+  steps:
+    - name: CheckOut PR Code
+      uses: actions/checkout@v4
+    
+    - name: Confirm PR Context
+      run: |
+          echo "PR number: ${{ github.event.pull_request.number }}"
+          echo "Base branch: ${{github.base_ref}}"
+          echo "Head branch: ${{github.head_ref}}"
