@@ -12,12 +12,18 @@ jobs:
     steps:
       - name: CheckOut PR Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
     
       - name: Confirm PR Context
         run: |
             echo "PR number: ${{ github.event.pull_request.number }}"
             echo "Base branch: ${{github.base_ref}}"
             echo "Head branch: ${{github.head_ref}}"
+      
+      - name: Fetch Main Branch
+        run: |
+          git fetch origin main:main
       
       - name: Run SEMGrep Scan
         uses: returntocorp/semgrep-action@v1
