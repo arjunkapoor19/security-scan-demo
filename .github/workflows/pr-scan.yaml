@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: CheckOut PR Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
     
       - name: Confirm PR Context
         run: |
@@ -19,8 +21,12 @@ jobs:
             echo "Base branch: ${{github.base_ref}}"
             echo "Head branch: ${{github.head_ref}}"
       
+      - name: Fetch Main Branch
+        run: |
+          git fetch origin main:main
+      
       - name: Run SEMGrep Scan
         uses: returntocorp/semgrep-action@v1
         with:
-          config: "p/ci"
-          args: --baseline-ref=origin/main
+          entryPoint: semgrep
+          args: --config p/ci --baseline-commit=origin/main --metrics=off
