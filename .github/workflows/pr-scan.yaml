@@ -22,5 +22,6 @@ jobs:
       - name: Run SEMGrep Scan
         uses: returntocorp/semgrep-action@v1
         with:
+          entryPoint: semgrep
           config: "p/ci"
           args: --baseline-ref=origin/main
