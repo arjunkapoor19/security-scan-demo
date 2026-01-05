@@ -84,30 +84,30 @@ jobs:
       - name: Comment ZAP results on PR
         uses: actions/github-script@v7
         with:
-        script: |
-          const fs = require('fs')
+          script: |
+            const fs = require('fs')
 
-          if (!fs.existsSync('zap-report.json')) {
-            console.log('No ZAP report found')
-            return
-          }
-
-          const data = JSON.parse(fs.readFileSync('zap-report.json', 'utf8'))
-          const alerts = data.site?.[0]?.alerts || []
-          let comment = `### DAST Report (OWASP ZAP)\n`
-          if (alerts.length === 0) {
-            comment += `No issues detected by baseline scan.`
-          } else {
-            for (const alert of alerts) {
-              comment += `- **${alert.alert}** (${alert.riskdesc})\n`
+            if (!fs.existsSync('zap-report.json')) {
+              console.log('No ZAP report found')
+              return
             }
-          }
 
-          if (!context.issue.number) return
+            const data = JSON.parse(fs.readFileSync('zap-report.json', 'utf8'))
+            const alerts = data.site?.[0]?.alerts || []
+            let comment = `### DAST Report (OWASP ZAP)\n`
+            if (alerts.length === 0) {
+              comment += `No issues detected by baseline scan.`
+            } else {
+              for (const alert of alerts) {
+                comment += `- **${alert.alert}** (${alert.riskdesc})\n`
+              }
+            }
 
-          await github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: comment
-          })
+            if (!context.issue.number) return
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
