@@ -23,7 +23,7 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           entryPoint: semgrep
-          args: ci --config p/ci --baseline-commit=origin/main --metrics=off
+          args: ci --baseline-commit=origin/main --metrics=off
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
