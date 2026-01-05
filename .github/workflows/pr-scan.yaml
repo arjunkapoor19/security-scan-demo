@@ -79,7 +79,7 @@ jobs:
         uses: zaproxy/action-baseline@v0.12.0
         with:
           target: "http://localhost:5000"
-          cmd_options: "-a -J zap-report.json"
+          cmd_options: "-a"
 
       - name: Comment ZAP results on PR
         uses: actions/github-script@v7
@@ -87,12 +87,12 @@ jobs:
         script: |
           const fs = require('fs')
 
-          if (!fs.existsSync('zap-report.json')) {
+          if (!fs.existsSync('report_json.json')) {
             console.log('No ZAP report found')
             return
           }
 
-          const data = JSON.parse(fs.readFileSync('zap-report.json', 'utf8'))
+          const data = JSON.parse(fs.readFileSync('report_json.json', 'utf8'))
           const alerts = data.site?.[0]?.alerts || []
           let comment = `### DAST Report (OWASP ZAP)\n`
           if (alerts.length === 0) {
