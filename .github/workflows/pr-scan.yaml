@@ -28,3 +28,39 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+
+
+      - name: Run Trivy SCA scan
+        uses: aquasecurity/trivy-action@0.22.0
+        with:
+          scan-type: fs
+          scanners: vuln
+          ignore-unfixed: true
+          severity: HIGH,CRITICAL
+          format: json
+          output: trivy-results.json
+
+      - name: Comment Trivy results on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs')
+            if (!fs.existsSync('trivy-results.json')) return
+
+            const data = JSON.parse(fs.readFileSync('trivy-results.json', 'utf8'))
+
+            let comment = `### Trivy SCA Report\n`
+            let found = false
+
+            for (const result of data.Results || []) {
+            for (const vuln of result.Vulnerabilities || []) {
+                found = true
+                comment += `- **${vuln.VulnerabilityID}** (${vuln.Severity}) in \`${vuln.PkgName}\` ${vuln.InstalledVersion}\n`
+              }
+            }
+            if (!found) {
+            comment += `No HIGH or CRITICAL dependency vulnerabilities found.`
+            }
+
+            await github.rest.issues.createComment
+
