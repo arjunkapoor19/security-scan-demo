@@ -3,6 +3,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class WeakCrypto {
     public static void main(String[] args) throws Exception {
-        System.out.println("Using weak cryptography...");
+        Cipher cipher = Cipher.getInstance("DES");
+        SecretKeySpec key = new SecretKeySpec("12345678".getBytes(), "DES");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
     }
 }
