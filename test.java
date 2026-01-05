@@ -1,9 +1,10 @@
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
-public class InsecureDeserialization {
+public class WeakCrypto {
     public static void main(String[] args) throws Exception {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.bin"));
-        Object obj = ois.readObject();
+        Cipher cipher = Cipher.getInstance("DES");
+        SecretKeySpec key = new SecretKeySpec("12345678".getBytes(), "DES");
+        cipher.init(Cipher.ENCRYPT_MODE, key);
     }
 }
