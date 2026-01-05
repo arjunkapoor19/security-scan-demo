@@ -24,4 +24,4 @@ jobs:
         with:
           entryPoint: semgrep
           config: "p/ci"
-          args: --baseline-ref=origin/main
+          args: --baseline-commit=origin/main
