@@ -1,9 +1,6 @@
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
-
-public class InsecureDeserialization {
+public class CommandInjection {
     public static void main(String[] args) throws Exception {
-        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("data.bin"));
-        Object obj = ois.readObject();
+        String userInput = args[0];
+        Runtime.getRuntime().exec(userInput);
     }
 }
